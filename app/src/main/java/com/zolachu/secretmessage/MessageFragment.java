@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,13 +33,15 @@ public class MessageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
 
         Button nextButton = view.findViewById(R.id.next);
-        TextView messageView = view.findViewById(R.id.message);
-        nextButton.setOnClickListener(v -> {
-                    String message = messageView.toString();
-                    MessageFragmentDirections.ActionMessageFragmentToEncryptFragment action = MessageFragmentDirections.actionMessageFragmentToEncryptFragment(message);
 
+        nextButton.setOnClickListener(v -> {
+                    TextView messageView = view.findViewById(R.id.message);
+                    String message = messageView.getText().toString();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("message", message);
                     NavController navController = Navigation.findNavController(view);
-                    navController.navigate(action);
+
+                    navController.navigate(MessageFragmentDirections.actionMessageFragmentToEncryptFragment(message));
                 });
         return view;
     }
